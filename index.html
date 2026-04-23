@@ -26,8 +26,9 @@
 </body>
   
 <script>
-let ClickCount=0;
+let ClickCount=0
 //Needed global variables
+let points = 0;
 let pointMulti = 1;
 let level = 0;
 onload(Start());
@@ -44,72 +45,28 @@ function multShop() {
     let error = ""
     //value trackers=======================================================================
     let mult = [5, 25, 125, 625, 3125, 15625];
-    let priceTotal = [100, 1000, 10000, 100000, 1000000, 10000000];
+    let priceTotal = [100, 1000, 10000, 100000, 1000000, 10000000,"MAX LEVEL"];
 
     //Price setter
     let price = priceTotal[level];//sets price to = the current price from price total
 
-    if (ClickCount >= price) {//will check if point is greater than or equal to the price
+    if(level <6){
+    	if (points >= price) {//will check if point is greater than or equal to the price
         pointMulti = mult[level];
         level++;
-        ClickCount = ClickCount-price;
         error = "You are now Level:" + level
 		document.getElementById("shopPrice").innerHTML = priceTotal[level];
-    }
-    else {//Will boot not enough points if you do not match the current price
-        error = "Not Enough Points";
-    }
-
+    		} 
+		else {//Will boot not enough points if you do not match the current price
+        		error = "Not Enough Points";
+    		 }
+    } 
+	else {
+        error ="THERE ARE NO MORE LEVELS"
+    }     
     document.getElementById("shopReturn").innerHTML = error;//returns either a good messege or bad messege
 }
 //========================================================================================
-	// call to move a set of imgs down the scren and delete them when thay hit the bottum of their frame
-async function victory_cookie(frame_id,num,src){
-    const frame=document.getElementById(frame_id);
-    const frag=document.createDocumentFragment();
-    const list_cookie_ids=new Array(num-1);
-
-    for(let n=0;n<num;n++){
-        const img_cookie=document.createElement("img");
-        img_cookie.src=src;
-        img_cookie.id="id_cookie_"+n;
-        img_cookie.classList.add("class_cookie");
-        const range=parseFloat(getComputedStyle(frame).width);
-        const left=(Math.random()*range);
-        img_cookie.style.marginTop="0px";
-        img_cookie.style.marginLeft=left+"px";
-        frag.append(img_cookie);
-        list_cookie_ids[n]=img_cookie.id;
-    }
-    frame.append(frag);
-    
-
-    const move=(speed)=>{
-        console.log("move: "+(list_cookie_ids.length===0));
-        if(list_cookie_ids.length===0){ return false; }
-        const range=parseFloat(getComputedStyle(frame).height);
-
-        for(C of list_cookie_ids){
-            const el=document.getElementById(C);
-            const left=(Math.random()*speed)-(speed/2);
-            const dist=parseInt(getComputedStyle(el).marginTop)
-            if(range<dist){
-                list_cookie_ids.splice(list_cookie_ids.indexOf(C),1);
-                el.remove();
-                continue;
-            }
-            const top=dist+speed;
-            el.style.marginTop=top+"px";
-            el.style.marginLeft=left+"px";
-        }
-    };
-
-    let loop=true;
-    while(true){
-        loop=move(10);
-        await new Promise(resolve=> setTimeout(resolve,100));
-    }
-}
 </script>
   
 </html>
